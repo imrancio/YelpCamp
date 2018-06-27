@@ -1,0 +1,15 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "User reviews and recommendations of best campgrounds",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Imran Chowdhury",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}
