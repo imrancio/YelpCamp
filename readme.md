@@ -6,3 +6,7 @@
 Each Campground has:
 * Name
 * Image
+
+#Layout and Basic Styling
+* Header and footer partials
+* Bootstrap
