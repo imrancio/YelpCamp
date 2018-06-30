@@ -20,3 +20,8 @@ Each Campground has:
 #Style the campgrounds Page
 * Better header/title
 * Campgrounds display in a grid
+
+#Add Mongoose
+* Install and configure Mongoose
+* Setup campground model
+* Use model in routes

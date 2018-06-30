@@ -1,37 +1,55 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var campgrounds = [
-  {name: 'Salmon Creek', image: 'https://res.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_452,q_75,w_982/http://res.cloudinary.com/simpleview/image/upload/v1469218578/clients/lanecounty/constitution_grove_campground_by_natalie_inouye_417476ef-05c3-464d-99bd-032bb0ee0bd5.png'},
-  {name: 'Mountain Peak', image: 'https://www.nationalparks.nsw.gov.au/-/media/npws/images/parks/munmorah-state-conservation-area/background/freemans-campground-background.jpg'},
-  {name: 'Sutton Falls', image: 'http://www.suttonfalls.com/communities/4/004/012/498/244//images/4628314067_550x441.jpg'},
-  {name: 'Salmon Creek', image: 'https://res.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_452,q_75,w_982/http://res.cloudinary.com/simpleview/image/upload/v1469218578/clients/lanecounty/constitution_grove_campground_by_natalie_inouye_417476ef-05c3-464d-99bd-032bb0ee0bd5.png'},
-  {name: 'Mountain Peak', image: 'https://www.nationalparks.nsw.gov.au/-/media/npws/images/parks/munmorah-state-conservation-area/background/freemans-campground-background.jpg'},
-  {name: 'Sutton Falls', image: 'http://www.suttonfalls.com/communities/4/004/012/498/244//images/4628314067_550x441.jpg'},
-  {name: 'Salmon Creek', image: 'https://res.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_452,q_75,w_982/http://res.cloudinary.com/simpleview/image/upload/v1469218578/clients/lanecounty/constitution_grove_campground_by_natalie_inouye_417476ef-05c3-464d-99bd-032bb0ee0bd5.png'},
-  {name: 'Mountain Peak', image: 'https://www.nationalparks.nsw.gov.au/-/media/npws/images/parks/munmorah-state-conservation-area/background/freemans-campground-background.jpg'},
-  {name: 'Sutton Falls', image: 'http://www.suttonfalls.com/communities/4/004/012/498/244//images/4628314067_550x441.jpg'}
-];
+var express     = require('express'),
+    app         = express(),
+    bodyParser  = require('body-parser'),
+    mongoose    = require('mongoose');
 
+// Connect or create MongoDB through mongoose
+mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
+
+// SCHEMA SETUP
+// create schema for campground
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+// compile schema for Campground model
+var Campground = mongoose.model('Campground', campgroundSchema);
+
+// ROUTES
 
 app.get('/', (req, res) => {
   res.render('landing');
 });
 
 app.get('/campgrounds', (req, res) => {
-  res.render('campgrounds', {campgrounds: campgrounds});
+  // Get all Campgrounds from DB
+  Campground.find({}, (err, allCampgrounds) => {
+     if (err) {
+         console.log(err);
+     }
+     else {
+         res.render('campgrounds', {campgrounds: allCampgrounds});
+     }
+  });
 });
 
 app.post('/campgrounds', (req, res) => {
-  // get data from form and add to campgrounds array
+  // get data from form
   var name = req.body.name;
   var image = req.body.image;
   var newCampground = {name: name, image: image};
-  campgrounds.push(newCampground);
-  // redirect back to campgrounds page
-  res.redirect('/campgrounds');
+  // create new campground and save to DB (using model)
+  Campground.create(newCampground, (err, newlyCreated) => {
+      if (err) {
+          console.log(err);
+      }
+      else {
+          // redirect back to campgrounds page
+          res.redirect('/campgrounds');
+      }
+  });
 });
 
 app.get('/campgrounds/new', (req, res) => {
