@@ -25,3 +25,8 @@ Each Campground has:
 * Install and configure Mongoose
 * Setup campground model
 * Use model in routes
+
+#Show Page
+* Add description to campground model
+* RESTful routes
+* Show route/template
