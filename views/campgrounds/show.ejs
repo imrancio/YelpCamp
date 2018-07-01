@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-3">
                 <p class="lead">YelpCamp</p>
-                <div class="list-group">
+                <div class="list-group mb-4">
                     <li class="list-group-item active">Info 1</li>
                     <li class="list-group-item">Info 2</li>
                     <li class="list-group-item">Info 2</li>
@@ -14,7 +14,7 @@
                 <div class="card">
                     <img class="card-img-top img-fluid" src="<%= campground.image %>" />
                     <div class="card-body">
-                        <h4 class="card-title mb-1 float-right">$9.00/night</h4>
+                        <h4 class="card-title mb-1 float-right">$<%= campground.price %>/night</h4>
                         <h4 class="card-title mb-1"><a href="#"><%= campground.name %></a></h4>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <em>Submitted by <%= campground.author.username %></em>
@@ -28,7 +28,7 @@
                         <% } %>
                     </div>
                 </div>
-                <div class="card bg-light mt-4">
+                <div class="card bg-light my-4">
                     <div class="card-body py-0">
                         <div class="text-center">
                             <a class="btn btn-success m-4" href="/campgrounds/<%= campground._id %>/comments/new">Add Comment</a>
