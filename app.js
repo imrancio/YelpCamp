@@ -1,22 +1,17 @@
 var express     = require('express'),
     app         = express(),
     bodyParser  = require('body-parser'),
-    mongoose    = require('mongoose');
+    mongoose    = require('mongoose'),
+    Campground  = require('./models/campground'),
+    Comment     = require('./models/comment'),
+    User        = require('./models/user');
 
 // Connect or create MongoDB through mongoose
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
-// SCHEMA SETUP
-// create schema for campground
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-// compile schema for Campground model
-var Campground = mongoose.model('Campground', campgroundSchema);
+
 
 // TEMPORARY ADD TO DB
 // Campground.create(
