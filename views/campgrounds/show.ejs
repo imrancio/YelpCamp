@@ -17,7 +17,7 @@
                         <h4 class="card-title mb-1 float-right">$<%= campground.price %>/night</h4>
                         <h4 class="card-title mb-1"><a href="#"><%= campground.name %></a></h4>
                         <h6 class="card-subtitle mb-2 text-muted">
-                            <em>Submitted by <%= campground.author.username %></em>
+                            <em>Submitted by <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em>
                         </h6>
                         <p><%= campground.description %></p>
                         <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
@@ -40,7 +40,7 @@
                                         <strong><%= comment.author.username %></strong>
                                         <div class="float-right">
                                             <div class="text-secondary text-right">
-                                                10 days ago
+                                                <%= moment(comment.createdAt).fromNow() %>
                                             </div>
                                             <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                                                 <div class="float-right">
