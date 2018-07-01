@@ -14,16 +14,19 @@
             <div class="card">
                 <img class="card-img-top img-fluid" src="<%= campground.image %>" />
                 <div class="card-body">
-                    <h4 class="card-title float-right">$9.00/night</h4>
-                    <h4 class="card-title"><a href="#"><%= campground.name %></a></h4>
+                    <h4 class="card-title mb-1 float-right">$9.00/night</h4>
+                    <h4 class="card-title mb-1"><a href="#"><%= campground.name %></a></h4>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <em>Submitted by <%= campground.author.username %></em>
+                    </h6>
                     <p><%= campground.description %></p>
                 </div>
             </div>
             <div class="card bg-light mt-4">
-                <div class="card-subtitle text-center" >
-                    <a class="btn btn-success m-4" href="/campgrounds/<%= campground._id %>/comments/new">Add Comment</a>
-                </div>
                 <div class="card-body py-0">
+                    <div class="text-center">
+                        <a class="btn btn-success m-4" href="/campgrounds/<%= campground._id %>/comments/new">Add Comment</a>
+                    </div>
                     <div class="card-text">
                         <ul class="list-group list-group-flush">
                             <% campground.comments.forEach((comment) => { %>
