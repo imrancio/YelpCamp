@@ -74,6 +74,7 @@ router.put('/:comment_id', middleware.checkCommentOwner, (req, res) => {
             res.redirect('back');
         }
         else {
+            req.flash('success', 'Updated comment');
             res.redirect('/campgrounds/' + req.params.id);
         }
     });
@@ -87,7 +88,7 @@ router.delete('/:comment_id', middleware.checkCommentOwner, (req, res) => {
             res.redirect('back');
         }
         else {
-            req.flash('success', 'Comment deleted');
+            req.flash('success', 'Deleted comment');
             res.redirect('/campgrounds/' + req.params.id);
         }
     });

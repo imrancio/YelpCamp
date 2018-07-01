@@ -61,6 +61,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
              console.log(err);
          }
          else {
+             req.flash('success', 'Created ' + newlyCreated.name);
              // redirect back to campgrounds page
              res.redirect('/campgrounds');
          }
@@ -113,7 +114,7 @@ router.put('/:id', middleware.checkCampgroundOwner, (req, res) => {
             }
             else {
                 // redirect to show page
-                req.flash('success', 'Updated campground');
+                req.flash('success', 'Updated ' + req.body.campground.name);
                 res.redirect('/campgrounds/' + req.params.id);
             }
         });
@@ -122,10 +123,11 @@ router.put('/:id', middleware.checkCampgroundOwner, (req, res) => {
 
 // DESTROY - delete a specific campground
 router.delete('/:id', middleware.checkCampgroundOwner, (req, res) => {
-    Campground.findByIdAndRemove(req.params.id, (err) => {
+    Campground.findByIdAndRemove(req.params.id, (err, removed) => {
         if (err) {
             console.log(err);
         }
+        req.flash('success', 'Deleted ' + removed.name);
         res.redirect('/campgrounds');
     });
 });
