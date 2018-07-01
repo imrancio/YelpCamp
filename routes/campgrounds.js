@@ -57,20 +57,14 @@ router.get('/:id', (req, res) => {
 });
 
 // EDIT - form to edit a camprgound
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', checkCampgroundOwner, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
-        if (err) {
-            console.log(err);
-            res.redirect('/campgrounds');
-        }
-        else {
-            res.render('campgrounds/edit', {campground: foundCampground});
-        }
+        res.render('campgrounds/edit', {campground: foundCampground});
     });
 });
 
 // UPDATE - update a specific campgrounds
-router.put('/:id', (req, res) => {
+router.put('/:id', checkCampgroundOwner, (req, res) => {
     // find and update the correct campground
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
         if (err) {
@@ -85,7 +79,7 @@ router.put('/:id', (req, res) => {
 });
 
 // DESTROY - delete a specific campground
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkCampgroundOwner, (req, res) => {
     Campground.findByIdAndRemove(req.params.id, (err) => {
         if (err) {
             console.log(err);
@@ -100,6 +94,32 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     res.redirect('/login');
+}
+
+function checkCampgroundOwner(req, res, next) {
+    // is user logged in
+    if(req.isAuthenticated()) {
+        Campground.findById(req.params.id, (err, foundCampground) => {
+            if (err) {
+                console.log(err);
+                res.redirect('back');
+            }
+            else {
+                // does user own campground?
+                if (foundCampground.author.id.equals(req.user._id)) {
+                    next();
+                }
+                // otherwise, redirect
+                else {
+                    res.redirect('back');
+                }
+            }
+        });
+    }
+    // if not, redirect
+    else {
+        res.redirect('back');
+    }
 }
 
 module.exports = router;
