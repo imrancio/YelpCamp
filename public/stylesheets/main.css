@@ -31,3 +31,15 @@ body {
     height: 400px;
     width: 100%;
 }
+
+.navbar-light .navbar-brand:hover {
+    color: #297df6;
+}
+
+a.nav-link:hover {
+    background-color: #f0f0f0;
+}
+
+.active > a.nav-link {
+    background-color: #f0f0f0;
+}
