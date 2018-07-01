@@ -19,15 +19,15 @@
                     <p><%= campground.description %></p>
                 </div>
             </div>
-            <div class="card mt-4">
-                <div class="card-subtitle" >
-                    <a class="btn btn-success float-right m-4" href="/campgrounds/<%= campground._id %>/comments/new">Add Comment</a>
+            <div class="card bg-light mt-4">
+                <div class="card-subtitle text-center" >
+                    <a class="btn btn-success m-4" href="/campgrounds/<%= campground._id %>/comments/new">Add Comment</a>
                 </div>
                 <div class="card-body">
                     <div class="card-text">
                         <ul class="list-group list-group-flush">
                             <% campground.comments.forEach((comment) => { %>
-                                <li class="list-group-item">
+                                <li class="list-group-item bg-light">
                                     <strong><%= comment.author %></strong>
                                     <span class="float-right">10 days ago</span>
                                     <p>
