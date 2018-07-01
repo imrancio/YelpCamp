@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 // AUTH ROUTES
 
 // show register form
-router.get('/register', (req, res) => res.render('register'));
+router.get('/register', (req, res) => res.render('register', {page: 'register'}));
 
 // handle sign up logic
 router.post('/register', (req, res) => {
@@ -32,7 +32,7 @@ router.post('/register', (req, res) => {
 // LOGIN ROUTES
 
 // show login form
-router.get('/login', (req, res) => res.render('login'));
+router.get('/login', (req, res) => res.render('login', {page: 'login'}));
 
 // handle login logic
 router.post('/login', passport.authenticate('local',

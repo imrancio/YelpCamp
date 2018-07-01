@@ -1,10 +1,10 @@
 <% include ./partials/header %>
 
-<div class="container text-center">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-10 col-md-6">
             <form action="/register" method="POST">
-                <h1>Sign Up!</h1>
+                <h1 class="text-center">Sign Up</h1>
                 <div class="form-group">
                     <input class="form-control" type="text" name="username" placeholder="username">
                 </div>
@@ -12,7 +12,7 @@
                     <input class="form-control" type="password" name="password" placeholder="password">
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Sign Up</button>
+                    <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
                 </div>
                 <a href="/campgrounds">Go Back</a>
             </form>
