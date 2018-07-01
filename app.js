@@ -1,4 +1,5 @@
-var express        = require('express'),
+var dotenv         = require('dotenv').config(),
+    express        = require('express'),
     app            = express(),
     bodyParser     = require('body-parser'),
     flash          = require('connect-flash'),
