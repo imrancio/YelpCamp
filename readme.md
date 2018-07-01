@@ -32,3 +32,8 @@ Each Campground has:
 * Show route/template
 * Image, title, description, comments
 * Button to make new comment
+
+#Authentication
+* PassportJS
+* Passport Local (Username + Password)
+* Passport Local Mongoose (work with Mongoose)
