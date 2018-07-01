@@ -30,6 +30,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// custom middleware
+app.use((req, res, next) => {
+    // make currentUser available in all templates
+    res.locals.currentUser = req.user;
+    // next from middleware
+    next();
+});
+
 // RESTful Routes
 
 app.get('/', (req, res) => {
@@ -38,15 +46,15 @@ app.get('/', (req, res) => {
 
 // INDEX - show all campgrounds
 app.get('/campgrounds', (req, res) => {
-  // Get all Campgrounds from DB
-  Campground.find({}, (err, allCampgrounds) => {
-     if (err) {
-         console.log(err);
-     }
-     else {
-         res.render('campgrounds/index', {campgrounds: allCampgrounds});
-     }
-  });
+    // Get all Campgrounds from DB
+    Campground.find({}, (err, allCampgrounds) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.render('campgrounds/index', {campgrounds: allCampgrounds});
+        }
+    });
 });
 
 // CREATE - add new campground to db
@@ -79,7 +87,6 @@ app.get('/campgrounds/:id', (req, res) => {
             console.log(err);
         }
         else {
-            console.log(foundCampground);
             // render show template with that campground
             res.render('campgrounds/show', {campground: foundCampground});
         }
