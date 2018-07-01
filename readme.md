@@ -30,3 +30,5 @@ Each Campground has:
 * Add description to campground model
 * RESTful routes
 * Show route/template
+* Image, title, description, comments
+* Button to make new comment
