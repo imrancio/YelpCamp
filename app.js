@@ -3,32 +3,14 @@ var express     = require('express'),
     bodyParser  = require('body-parser'),
     mongoose    = require('mongoose'),
     Campground  = require('./models/campground'),
-    Comment     = require('./models/comment'),
-    User        = require('./models/user');
+    seedDB      = require('./seeds');
 
 // Connect or create MongoDB through mongoose
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
-
-
-
-// TEMPORARY ADD TO DB
-// Campground.create(
-//     {
-//         name: 'Aeternum Night',
-//         image: 'https://pixabay.com/get/e834b5062cf4033ed1584d05fb1d4e97e07ee3d21cac104496f0c370afeab5b8_340.jpg',
-//         description: 'Enjoy a relaxing night under beautiful purple aurora radiating through the skies.'
-//     }, (err, campground) => {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log('New Campground added:');
-//             console.log(campground);
-//         }
-//     }
-// );
+// set up seed database
+seedDB();
 
 // RESTful Routes
 
@@ -71,16 +53,17 @@ app.post('/campgrounds', (req, res) => {
 // NEW - show form to create new campground
 app.get('/campgrounds/new', (req, res) => {
   res.render('new');
-})
+});
 
 // SHOW - shows more information about one campground
 app.get('/campgrounds/:id', (req, res) => {
-    // find campground with provided ID
-    Campground.findById(req.params.id, (err, foundCampground) => {
+    // find campground with provided ID, populate comments from ids
+    Campground.findById(req.params.id).populate('comments').exec((err, foundCampground) => {
         if (err) {
             console.log(err);
         }
         else {
+            console.log(foundCampground);
             // render show template with that campground
             res.render('show', {campground: foundCampground});
         }
