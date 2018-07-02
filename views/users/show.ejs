@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                  <img class="card-img-top" src="<%= user.avatar %>" alt="avatar">
+                  <div class="card-body text-center">
+                    <h4 class="card-title"><%= user.firstName %> <%= user.lastName %></h4>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <a href="mailto:<%= user.email %>" class="btn btn-sm btn-primary">Email</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card-deck">
+                    <% campgrounds.forEach((campground) => { %>
+                        <div class="card mb-4">
+                          <img class="card-img-top" src="<%= campground.image %>" alt="Campground image">
+                          <div class="card-body">
+                            <h5 class="card-title"><a href="/campgrounds/<%= campground._id %>"><%= campground.name %></a></h5>
+                            <p class="card-text"><%= campground.description.substring(0, 100) %></p>
+                            <p class="card-text"><small class="text-muted"><%= moment(campground.createdAt).fromNow() %></small></p>
+                          </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% include ../partials/footer %>
