@@ -2,12 +2,20 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 mb-4">
-                <div class="card">
+                <div class="card text-center">
                   <img class="card-img-top" src="<%= user.avatar %>" alt="avatar">
-                  <div class="card-body text-center">
+                  <div class="card-body">
                     <h4 class="card-title"><%= user.firstName %> <%= user.lastName %></h4>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                    <a href="mailto:<%= user.email %>" class="btn btn-sm btn-primary">Email</a>
+                    <a href="mailto:<%= user.email %>" class="btn btn-primary"><i class="fas fa-at"></i></a>
+                    <div class="mt-2">
+                        <% if(currentUser && (currentUser.isAdmin || user._id.equals(currentUser._id))) { %>
+                            <a class="btn btn-warning" href="/users/<%= user._id %>/edit"><i class="fas fa-user-edit"></i></a>
+                            <form class="delete-form" action="/users/<%= user._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        <% } %>
+                    </div>
                   </div>
                 </div>
             </div>

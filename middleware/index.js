@@ -1,3 +1,5 @@
+var User = require('../models/user');
+
 // all middleware goes here
 var middlewareObj = {};
 
@@ -66,5 +68,34 @@ middlewareObj.checkCommentOwner = function(req, res, next) {
         res.redirect('back');
     }
 }
+
+middlewareObj.checkUser = function(req, res, next) {
+    // is user logged in
+    if(req.isAuthenticated()) {
+        User.findById(req.params.id, (err, foundUser) => {
+            if (err || !foundUser) {
+                console.log(err);
+                req.flash('error', 'User not found');
+                res.redirect('back');
+            }
+            else {
+                // does user own profile?
+                if (req.user.isAdmin || foundUser._id.equals(req.user._id)) {
+                    next();
+                }
+                // otherwise, redirect
+                else {
+                    req.flash('error', 'You don\'t have permission to do that');
+                    res.redirect('back');
+                }
+            }
+        });
+    }
+    // if not, redirect
+    else {
+        req.flash('error', 'You need to be logged in to do that');
+        res.redirect('back');
+    }
+};
 
 module.exports = middlewareObj;
