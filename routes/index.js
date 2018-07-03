@@ -35,7 +35,11 @@ router.post('/register', (req, res) => {
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             console.log(err);
-            req.flash('error', err.message);
+            if (err.message.substring(0,6) === 'E11000') {
+                req.flash('error', 'A user with the given email is already registered')
+            } else {
+                req.flash('error', err.message);
+            }
             return res.redirect('/register');
         }
         passport.authenticate('local')(req, res, () => {
