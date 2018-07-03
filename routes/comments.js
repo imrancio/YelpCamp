@@ -1,5 +1,5 @@
 var express    = require('express'),
-    router     = express.Router({mergeParams: true})
+    router     = express.Router({mergeParams: true}),
     middleware = require('../middleware'),
     Campground = require('../models/campground'),
     Comment    = require('../models/comment');

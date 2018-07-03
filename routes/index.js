@@ -71,69 +71,6 @@ router.get('/logout', (req, res) => {
     res.redirect('/campgrounds');
 });
 
-// USER PROFILE
-router.get('/users/:id', (req, res) => {
-    User.findById(req.params.id, (err, foundUser) => {
-        if (err) {
-            console.log(err);
-            req.flash('error', 'Something went wrong');
-            res.redirect('back');
-        }
-        Campground.find().where('author.id').equals(foundUser._id).exec((err, campgrounds) => {
-            if (err) {
-                console.log(err);
-                req.flash('error', 'Something went wrong');
-                res.redirect('back');
-            }
-            res.render('users/show', {user: foundUser, campgrounds: campgrounds, page: 'profile'});
-        });
-
-    });
-});
-
-// EDIT PROFILE - edit a specific profile
-router.get('/users/:id/edit', middleware.checkUser, (req, res) => {
-    User.findById(req.params.id, (err, foundUser) =>{
-        if (err || !foundUser) {
-            console.log(err);
-            req.flash('error', 'That user does not exist');
-            res.redirect('back');
-        }
-        else {
-            res.render('users/edit', {user: foundUser});
-        }
-    });
-});
-
-// UPDATE - update a specific profile
-router.put('/users/:id', middleware.checkUser, (req, res) => {
-    req.body.user.avatar = req.body.user.avatar ? req.body.user.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-    User.findByIdAndUpdate(req.params.id, req.body.user, (err, updatedUser) => {
-        if (err) {
-            console.log(err);
-            res.redirect('back');
-        }
-        else {
-            req.flash('success', 'Updated user');
-            res.redirect('/users/' + req.params.id);
-        }
-    });
-});
-
-// DESTROY - delete a user
-router.delete('/users/id', middleware.checkUser, (req, res) => {
-    User.findByIdAndRemove(req.params.id, (err, deletedUser) => {
-        if (err) {
-            console.log(err);
-            res.redirect('back');
-        }
-        else {
-            req.flash('success', 'Deleted ' + deletedUser.username);
-            res.redirect('/campgrounds/' + req.params.id);
-        }
-    });
-});
-
 // forgot password form
 router.get('/forgot', (req, res) => res.render('forgot'));
 

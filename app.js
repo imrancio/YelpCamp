@@ -14,6 +14,7 @@ var dotenv         = require('dotenv').config(),
 // requiring routes
 var commentRoutes    = require('./routes/comments'),
     campgroundRoutes = require('./routes/campgrounds'),
+    userRoutes       = require('./routes/users'),
     indexRoutes      = require('./routes/index');
 
 // Connect or create MongoDB through mongoose
@@ -61,5 +62,7 @@ app.use('/', indexRoutes);
 app.use('/campgrounds', campgroundRoutes);
 // require router with mergeParams true to get id param in the request
 app.use('/campgrounds/:id/comments', commentRoutes);
+app.use('/users/:id', userRoutes);
+
 var port = 3000;
 app.listen(port, console.log('YelpCamp server started on port ' + port));
