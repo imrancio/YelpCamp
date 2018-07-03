@@ -18,10 +18,15 @@ var commentRoutes    = require('./routes/comments'),
 
 // Connect or create MongoDB through mongoose
 mongoose.connect('mongodb://localhost/yelp_camp');
+// use body-parser to get form data from req.body
 app.use(bodyParser.urlencoded({extended:true}));
+// set view engine
 app.set('view engine', 'ejs');
+// serve public directory
 app.use(express.static(__dirname + '/public'));
+// method-override for PUT and DELETE requests
 app.use(methodOverride('_method'));
+// connect-flash messages
 app.use(flash());
 // momentJS for time
 app.locals.moment = require('moment');
@@ -56,5 +61,5 @@ app.use('/', indexRoutes);
 app.use('/campgrounds', campgroundRoutes);
 // require router with mergeParams true to get id param in the request
 app.use('/campgrounds/:id/comments', commentRoutes);
-
-app.listen(3000, console.log('YelpCamp server started on port 3000'));
+var port = 3000;
+app.listen(port, console.log('YelpCamp server started on port ' + port));

@@ -15,15 +15,34 @@ var geocoder = NodeGeocoder(options);
 
 // INDEX - show all campgrounds
 router.get('/', (req, res) => {
-    // Get all Campgrounds from DB
-    Campground.find({}, (err, allCampgrounds) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.render('campgrounds/index', {campgrounds: allCampgrounds, page: 'campgrounds'});
-        }
-    });
+    if (req.query.search) {
+       // Search Campground searchable fields and run query
+       Campground.search(req.query.search.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), (err, foundCampgrounds) => {
+           if (err) {
+               console.log(err);
+               // res.redirect('/campgrounds');
+           }
+           else {
+               if (!foundCampgrounds.length) {
+                   req.flash('error', 'No campground found matching that criteria');
+                   res.redirect('back');
+               }
+               res.render('campgrounds/', {campgrounds: foundCampgrounds, page: 'campgrounds'});
+           }
+       });
+    }
+    else {
+        // Get all Campgrounds from DB
+        Campground.find({}, (err, allCampgrounds) => {
+            if (err) {
+                console.log(err);
+                // res.redirect('/campgrounds');
+            }
+            else {
+                res.render('campgrounds/index', {campgrounds: allCampgrounds, page: 'campgrounds'});
+            }
+        });
+    }
 });
 
 // CREATE - add new campground to db

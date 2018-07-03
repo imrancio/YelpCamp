@@ -6,13 +6,19 @@
             <p>
                 <a class='btn btn-primary btn-lg' href="/campgrounds/new">Add New Campground</a>
             </p>
+            <p>
+                <form class="form-inline" action="/campgrounds" method="GET">
+                    <div class="form-group">
+                        <input class="form-control mb-2 mr-sm-2" type="text" name="search" placeholder="Campground search...">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-light mb-2 mr-sm-2" type="submit">Search</button>
+                    </div>
+                </form>
+            </p>
         </header>
 
         <div class="row">
-            <div class="col-xl-12">
-                <h3>Most Popular Campgrounds!</h3>
-            </div>
-
             <% campgrounds.forEach((campground) => { %>
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card">
