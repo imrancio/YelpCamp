@@ -1,4 +1,6 @@
-var User = require('../models/user');
+var User       = require('../models/user'),
+    Comment    = require('../models/comment'),
+    Campground = require('../models/campground');
 
 // all middleware goes here
 var middlewareObj = {};
