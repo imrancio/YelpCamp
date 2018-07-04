@@ -67,7 +67,8 @@ router.get('/:comment_id/edit', middleware.checkCommentOwner, (req, res) => {
 });
 
 // UPDATE - update a specific comment
-router.put('/:comment_id', middleware.checkCommentOwner, (req, res) => {
+router.put('/:comment_id', middleware.checkCommentOwner, middleware.updateTime, (req, res) => {
+
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
         if (err) {
             console.log(err);

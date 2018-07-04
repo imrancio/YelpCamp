@@ -98,6 +98,26 @@ middlewareObj.checkUser = function(req, res, next) {
         req.flash('error', 'You need to be logged in to do that');
         res.redirect('back');
     }
-};
+}
+
+middlewareObj.checkAvatar = function(req, res, next) {
+    if (req.body.avatar != null) {
+        req.body.avatar = req.body.avatar ? req.body.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+    }
+    else if (req.body.user != null) {
+        req.body.user.avatar = req.body.user.avatar ? req.body.user.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+    }
+    next();
+}
+
+middlewareObj.updateTime = function(req, res, next) {
+    if (req.body.comment != null) {
+        req.body.comment.createdAt = Date.now();
+    }
+    else if (req.body.campground != null) {
+        req.body.campground.createdAt = Date.now();
+    }
+    next();
+}
 
 module.exports = middlewareObj;

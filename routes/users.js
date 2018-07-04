@@ -39,8 +39,8 @@ router.get('/edit', middleware.checkUser, (req, res) => {
 });
 
 // UPDATE - update a specific profile
-router.put('/', middleware.checkUser, (req, res) => {
-    req.body.user.avatar = req.body.user.avatar ? req.body.user.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+router.put('/', middleware.checkUser, middleware.checkAvatar, (req, res) => {
+
     User.findByIdAndUpdate(req.params.id, req.body.user, (err, updatedUser) => {
         if (err) {
             console.log(err);

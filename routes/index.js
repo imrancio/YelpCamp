@@ -19,15 +19,14 @@ router.get('/', (req, res) => {
 router.get('/register', (req, res) => res.render('register', {page: 'register'}));
 
 // handle sign up logic
-router.post('/register', (req, res) => {
-    var avatar = req.body.avatar ? req.body.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+router.post('/register', middleware.checkAvatar, (req, res) => {
     var newUser = new User(
         {
             username: req.body.username,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            avatar: avatar
+            avatar: req.body.avatar
         });
     if (req.body.adminCode === 'Godric') {
         newUser.isAdmin = true;
@@ -35,7 +34,7 @@ router.post('/register', (req, res) => {
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             console.log(err);
-            if (err.message.substring(0,6) === 'E11000') {
+            if (err.message.startsWith('E11000')) {
                 req.flash('error', 'A user with the given email is already registered')
             } else {
                 req.flash('error', err.message);

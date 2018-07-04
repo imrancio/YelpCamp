@@ -4,14 +4,15 @@ mongoose.plugin(require('mongoose-regex-search'));
 
 // create schema for campground
 var campgroundSchema = new mongoose.Schema({
+    createdAt: { type: Date, default: Date.now() },
     name: { type: String, index: true, searchable: true },
     price: { type: String, index: true, searchable: true },
     image: String,
+    imageId: { type: String, default: null },
     description: { type: String, index: true, searchable: true },
     location: { type: String, index: true, searchable: true },
     lat: Number,
     lng: Number,
-    createdAt: { type: Date, default: Date.now() },
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
