@@ -65,7 +65,7 @@ router.get('/', (req, res) => {
 });
 
 // CREATE - add new campground to db
-router.post('/', middleware.isLoggedIn, upload.single('image'), middleware.updateTime, (req, res) => {
+router.post('/', middleware.ensureLoggedIn('/login'), upload.single('image'), middleware.updateTime, (req, res) => {
     // get data from form
     var newCampground = req.body.campground;
     newCampground.author = {
@@ -120,12 +120,12 @@ router.post('/', middleware.isLoggedIn, upload.single('image'), middleware.updat
 });
 
 // NEW - show form to create new campground
-router.get('/new', middleware.isLoggedIn, (req, res) => res.render('campgrounds/new'));
+router.get('/new', middleware.ensureLoggedIn('/login'), (req, res) => res.render('campgrounds/new'));
 
 // SHOW - shows more information about one campground
 router.get('/:id', (req, res) => {
     // find campground with provided ID, populate comments from ids
-    Campground.findById(req.params.id).populate('comments').exec((err, foundCampground) => {
+    Campground.findById(req.params.id).populate({ path: 'comments', options: { sort: { 'createdAt': 'descending' } } }).exec((err, foundCampground) => {
         if (err || !foundCampground) {
             console.log(err);
             req.flash('error', 'Campground not found');

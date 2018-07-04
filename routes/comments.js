@@ -7,7 +7,7 @@ var express    = require('express'),
 // NESTED COMMENTS ROUTES
 
 // NEW COMMENT Form
-router.get('/new', middleware.isLoggedIn, (req, res) => {
+router.get('/new', middleware.ensureLoggedIn('/login'), (req, res) => {
     // find campground by ID
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
@@ -21,7 +21,7 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 });
 
 // CREATE COMMENT
-router.post('/', middleware.isLoggedIn, (req, res) => {
+router.post('/', middleware.ensureLoggedIn('/login'), middleware.updateTime, (req, res) => {
     // lookup campground using id
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {

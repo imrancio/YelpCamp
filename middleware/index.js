@@ -5,14 +5,10 @@ var User       = require('../models/user'),
 // all middleware goes here
 var middlewareObj = {};
 
-middlewareObj.isLoggedIn = function(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.flash('error', 'You need to be logged in to do that');
-    res.redirect('/login');
-}
+// checks if user logged in
+middlewareObj.ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
+// checks if current user owns campground
 middlewareObj.checkCampgroundOwner = function(req, res, next) {
     // is user logged in
     if(req.isAuthenticated()) {
@@ -41,7 +37,7 @@ middlewareObj.checkCampgroundOwner = function(req, res, next) {
         res.redirect('back');
     }
 }
-
+// checks if current user owns comment
 middlewareObj.checkCommentOwner = function(req, res, next) {
     // is user logged in
     if(req.isAuthenticated()) {
@@ -70,7 +66,7 @@ middlewareObj.checkCommentOwner = function(req, res, next) {
         res.redirect('back');
     }
 }
-
+// checks if current user owns profile
 middlewareObj.checkUser = function(req, res, next) {
     // is user logged in
     if(req.isAuthenticated()) {
@@ -99,17 +95,18 @@ middlewareObj.checkUser = function(req, res, next) {
         res.redirect('back');
     }
 }
-
+// sets default avatar if not set
 middlewareObj.checkAvatar = function(req, res, next) {
+    defaultAvatar = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
     if (req.body.avatar != null) {
-        req.body.avatar = req.body.avatar ? req.body.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+        req.body.avatar = req.body.avatar ? req.body.avatar : defaultAvatar;
     }
     else if (req.body.user != null) {
-        req.body.user.avatar = req.body.user.avatar ? req.body.user.avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+        req.body.user.avatar = req.body.user.avatar ? req.body.user.avatar : defaultAvatar;
     }
     next();
 }
-
+// updates createdAt time for comments/campgrounds
 middlewareObj.updateTime = function(req, res, next) {
     if (req.body.comment != null) {
         req.body.comment.createdAt = Date.now();
