@@ -55,7 +55,6 @@ router.get('/', (req, res) => {
         Campground.find({}, (err, allCampgrounds) => {
             if (err) {
                 console.log(err);
-                // res.redirect('/campgrounds');
             }
             else {
                 res.render('campgrounds/index', {campgrounds: allCampgrounds, page: 'campgrounds'});
@@ -125,7 +124,14 @@ router.get('/new', middleware.ensureLoggedIn('/login'), (req, res) => res.render
 // SHOW - shows more information about one campground
 router.get('/:id', (req, res) => {
     // find campground with provided ID, populate comments from ids
-    Campground.findById(req.params.id).populate({ path: 'comments', options: { sort: { 'createdAt': 'descending' } } }).exec((err, foundCampground) => {
+    Campground.findById(req.params.id).populate({
+        path: 'comments',
+        options: {
+            sort: {
+                'createdAt': 'descending'
+            }
+        }
+    }).exec((err, foundCampground) => {
         if (err || !foundCampground) {
             console.log(err);
             req.flash('error', 'Campground not found');

@@ -20,14 +20,14 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <div class="card-deck">
+            <div class="card-columns">
                 <% campgrounds.forEach((campground) => { %>
                     <div class="card mb-4">
                         <img class="card-img-top" src="<%= campground.image %>" alt="Campground image">
                         <div class="card-body">
                             <h5 class="card-title"><a href="/campgrounds/<%= campground._id %>"><%= campground.name %></a></h5>
                             <p class="card-text">
-                                <%= campground.description.substring(0, 100) %>
+                                <%= campground.description.length > 100 ? campground.description.substring(0, 100) + '...' : campground.description %>
                             </p>
                             <p class="card-text"><small class="text-muted"><%= moment(campground.createdAt).fromNow() %></small></p>
                         </div>

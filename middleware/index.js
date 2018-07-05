@@ -1,15 +1,16 @@
-var User       = require('../models/user'),
-    Comment    = require('../models/comment'),
-    Campground = require('../models/campground');
+var User               = require('../models/user'),
+    Comment            = require('../models/comment'),
+    Campground         = require('../models/campground'),
+    connectEnsureLogin = require('connect-ensure-login');
 
 // all middleware goes here
-var middlewareObj = {};
+var middleware = {};
 
-// checks if user logged in
-middlewareObj.ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+// checks if user logged in; redirects back to previous page
+middleware.ensureLoggedIn = connectEnsureLogin.ensureLoggedIn;
 
 // checks if current user owns campground
-middlewareObj.checkCampgroundOwner = function(req, res, next) {
+middleware.checkCampgroundOwner = function(req, res, next) {
     // is user logged in
     if(req.isAuthenticated()) {
         Campground.findById(req.params.id, (err, foundCampground) => {
@@ -38,7 +39,7 @@ middlewareObj.checkCampgroundOwner = function(req, res, next) {
     }
 }
 // checks if current user owns comment
-middlewareObj.checkCommentOwner = function(req, res, next) {
+middleware.checkCommentOwner = function(req, res, next) {
     // is user logged in
     if(req.isAuthenticated()) {
         Comment.findById(req.params.comment_id, (err, foundComment) => {
@@ -67,7 +68,7 @@ middlewareObj.checkCommentOwner = function(req, res, next) {
     }
 }
 // checks if current user owns profile
-middlewareObj.checkUser = function(req, res, next) {
+middleware.checkUser = function(req, res, next) {
     // is user logged in
     if(req.isAuthenticated()) {
         User.findById(req.params.id, (err, foundUser) => {
@@ -96,8 +97,8 @@ middlewareObj.checkUser = function(req, res, next) {
     }
 }
 // sets default avatar if not set
-middlewareObj.checkAvatar = function(req, res, next) {
-    defaultAvatar = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+middleware.checkAvatar = function(req, res, next) {
+    defaultAvatar = 'http://' + req.headers.host + '/images/blank-profile-picture.png';
     if (req.body.avatar != null) {
         req.body.avatar = req.body.avatar ? req.body.avatar : defaultAvatar;
     }
@@ -107,7 +108,7 @@ middlewareObj.checkAvatar = function(req, res, next) {
     next();
 }
 // updates createdAt time for comments/campgrounds
-middlewareObj.updateTime = function(req, res, next) {
+middleware.updateTime = function(req, res, next) {
     if (req.body.comment != null) {
         req.body.comment.createdAt = Date.now();
     }
@@ -117,4 +118,4 @@ middlewareObj.updateTime = function(req, res, next) {
     next();
 }
 
-module.exports = middlewareObj;
+module.exports = middleware;

@@ -43,3 +43,7 @@ a.nav-link:hover {
 .active > a.nav-link {
     background-color: #f0f0f0;
 }
+
+#image {
+    line-height: inherit
+}

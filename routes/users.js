@@ -1,5 +1,5 @@
 var express    = require('express'),
-    router     = express.Router({mergeParams: true}),
+    router     = express.Router({ mergeParams: true }),
     middleware = require('../middleware'),
     Campground = require('../models/campground'),
     User       = require('../models/user');
@@ -40,7 +40,6 @@ router.get('/edit', middleware.checkUser, (req, res) => {
 
 // UPDATE - update a specific profile
 router.put('/', middleware.checkUser, middleware.checkAvatar, (req, res) => {
-
     User.findByIdAndUpdate(req.params.id, req.body.user, (err, updatedUser) => {
         if (err) {
             console.log(err);
