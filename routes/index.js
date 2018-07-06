@@ -56,12 +56,12 @@ router.get('/login', (req, res) => res.render('login', {page: 'login'}));
 // handle login logic
 router.post('/login', passport.authenticate('local',
     {
-        successReturnToOrRedirect: '/campgrounds',
         failureRedirect: '/login',
-        successFlash: 'Welcome back!',
         failureFlash: true
     }), (req, res) => {
-
+        // redirect back to original url
+        res.redirect(req.session.returnTo || '/');
+        delete req.session.returnTo;
 });
 
 // LOGOUT ROUTE

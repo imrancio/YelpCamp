@@ -7,7 +7,7 @@ var express    = require('express'),
 // NESTED COMMENTS ROUTES
 
 // NEW COMMENT Form
-router.get('/new', middleware.ensureLoggedIn('/login'), (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
     // find campground by ID
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
@@ -21,7 +21,7 @@ router.get('/new', middleware.ensureLoggedIn('/login'), (req, res) => {
 });
 
 // CREATE COMMENT
-router.post('/', middleware.ensureLoggedIn('/login'), middleware.updateTime, (req, res) => {
+router.post('/', middleware.isLoggedIn, middleware.updateTime, (req, res) => {
     // lookup campground using id
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
@@ -54,7 +54,7 @@ router.post('/', middleware.ensureLoggedIn('/login'), middleware.updateTime, (re
 });
 
 // EDIT - edit a specific comment
-router.get('/:comment_id/edit', middleware.checkCommentOwner, (req, res) => {
+router.get('/:comment_id/edit', middleware.isLoggedIn, middleware.checkCommentOwner, (req, res) => {
     Comment.findById(req.params.comment_id, (err, foundComment) =>{
         if (err) {
             console.log(err);
@@ -67,8 +67,7 @@ router.get('/:comment_id/edit', middleware.checkCommentOwner, (req, res) => {
 });
 
 // UPDATE - update a specific comment
-router.put('/:comment_id', middleware.checkCommentOwner, middleware.updateTime, (req, res) => {
-
+router.put('/:comment_id', middleware.isLoggedIn, middleware.checkCommentOwner, middleware.updateTime, (req, res) => {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
         if (err) {
             console.log(err);
@@ -82,7 +81,7 @@ router.put('/:comment_id', middleware.checkCommentOwner, middleware.updateTime, 
 });
 
 // DESTROY - delete a comment
-router.delete('/:comment_id', middleware.checkCommentOwner, (req, res) => {
+router.delete('/:comment_id', middleware.isLoggedIn, middleware.checkCommentOwner, (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, (err) => {
         if (err) {
             console.log(err);

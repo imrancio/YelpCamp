@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 });
 
 // EDIT PROFILE - edit a specific profile
-router.get('/edit', middleware.checkUser, (req, res) => {
+router.get('/edit', middleware.isLoggedIn, middleware.checkUser, (req, res) => {
     User.findById(req.params.id, (err, foundUser) =>{
         if (err || !foundUser) {
             console.log(err);
@@ -39,7 +39,7 @@ router.get('/edit', middleware.checkUser, (req, res) => {
 });
 
 // UPDATE - update a specific profile
-router.put('/', middleware.checkUser, middleware.checkAvatar, (req, res) => {
+router.put('/', middleware.isLoggedIn, middleware.checkUser, middleware.checkAvatar, (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body.user, (err, updatedUser) => {
         if (err) {
             console.log(err);
@@ -53,7 +53,7 @@ router.put('/', middleware.checkUser, middleware.checkAvatar, (req, res) => {
 });
 
 // DESTROY - delete a user
-router.delete('/', middleware.checkUser, (req, res) => {
+router.delete('/', middleware.isLoggedIn, middleware.checkUser, (req, res) => {
     User.findByIdAndRemove(req.params.id, (err, deletedUser) => {
         if (err) {
             console.log(err);

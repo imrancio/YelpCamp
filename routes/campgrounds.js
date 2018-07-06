@@ -64,7 +64,7 @@ router.get('/', (req, res) => {
 });
 
 // CREATE - add new campground to db
-router.post('/', middleware.ensureLoggedIn('/login'), upload.single('image'), middleware.updateTime, (req, res) => {
+router.post('/', middleware.isLoggedIn, upload.single('image'), middleware.updateTime, (req, res) => {
     // get data from form
     var newCampground = req.body.campground;
     newCampground.author = {
@@ -119,7 +119,7 @@ router.post('/', middleware.ensureLoggedIn('/login'), upload.single('image'), mi
 });
 
 // NEW - show form to create new campground
-router.get('/new', middleware.ensureLoggedIn('/login'), (req, res) => res.render('campgrounds/new'));
+router.get('/new', middleware.isLoggedIn, (req, res) => res.render('campgrounds/new'));
 
 // SHOW - shows more information about one campground
 router.get('/:id', (req, res) => {
@@ -146,7 +146,7 @@ router.get('/:id', (req, res) => {
 });
 
 // EDIT - form to edit a camprgound
-router.get('/:id/edit', middleware.checkCampgroundOwner, (req, res) => {
+router.get('/:id/edit', middleware.isLoggedIn, middleware.checkCampgroundOwner, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         res.render('campgrounds/edit', {
             campground: foundCampground
@@ -155,7 +155,7 @@ router.get('/:id/edit', middleware.checkCampgroundOwner, (req, res) => {
 });
 
 // UPDATE - update a specific campgrounds
-router.put('/:id', middleware.checkCampgroundOwner, upload.single('image'), middleware.updateTime, (req, res) => {
+router.put('/:id', middleware.isLoggedIn, middleware.checkCampgroundOwner, upload.single('image'), middleware.updateTime, (req, res) => {
     // find and update the correct campground
     Campground.findById(req.params.id, async (err, campground) => {
         if (err) {
@@ -224,7 +224,7 @@ router.put('/:id', middleware.checkCampgroundOwner, upload.single('image'), midd
 });
 
 // DESTROY - delete a specific campground
-router.delete('/:id', middleware.checkCampgroundOwner, (req, res) => {
+router.delete('/:id', middleware.isLoggedIn, middleware.checkCampgroundOwner, (req, res) => {
     Campground.findById(req.params.id, async (err, campground) => {
         if (err) {
             console.log(err);
