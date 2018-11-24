@@ -5,7 +5,7 @@ var express    = require('express'),
     User       = require('../models/user');
 
 // USER PROFILE
-router.get('/', (req, res) => {
+router.get('/', middleware.isLoggedIn, (req, res) => {
     User.findById(req.params.id, (err, foundUser) => {
         if (err) {
             console.log(err);

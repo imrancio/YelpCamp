@@ -28,7 +28,7 @@ router.post('/register', middleware.checkAvatar, (req, res) => {
             email: req.body.email,
             avatar: req.body.avatar
         });
-    if (req.body.adminCode === 'Godric') {
+    if (req.body.adminCode === process.env.ADMINPW) {
         newUser.isAdmin = true;
     }
     User.register(newUser, req.body.password, (err, user) => {
@@ -59,9 +59,14 @@ router.post('/login', passport.authenticate('local',
         failureRedirect: '/login',
         failureFlash: true
     }), (req, res) => {
-        // redirect back to original url
-        res.redirect(req.session.returnTo || '/');
+        var returnTo = req.session.returnTo;
         delete req.session.returnTo;
+        // flash welcome message
+        if (!returnTo) {
+            req.flash('success', 'Welcome back ' + req.user.firstName + (req.user.lastName ? ' ' + req.user.lastName : '') + '!');
+        }
+        // redirect back to original url or campgrounds index
+        res.redirect(returnTo || '/campgrounds');
 });
 
 // LOGOUT ROUTE
@@ -172,13 +177,13 @@ router.post('/reset/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-          user: 'learntocodeinfo@gmail.com',
+          user: process.env.GMAIL,
           pass: process.env.GMAILPW
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'learntocodeinfo@mail.com',
+        from: process.env.GMAIL,
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
