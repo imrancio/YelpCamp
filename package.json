@@ -4,7 +4,10 @@
   "description": "User reviews and recommendations of best campgrounds",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "predev": "mongod --fork --logpath /dev/null",
+    "dev": "nodemon",
+    "postdev": "mongo admin --eval 'db.shutdownServer()' > /dev/null"
   },
   "author": "Imran Chowdhury",
   "license": "ISC",
@@ -29,5 +32,8 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
     "password-validator": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }

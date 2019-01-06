@@ -1,5 +1,7 @@
-var dotenv = require("dotenv").config(),
-  express = require("express"),
+// prod / dev environment variables
+process.env.NODE_ENV === "production" || require("dotenv").config();
+
+var express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
   flash = require("connect-flash"),
@@ -7,8 +9,8 @@ var dotenv = require("dotenv").config(),
   passport = require("passport"),
   LocalStrategy = require("passport-local"),
   methodOverride = require("method-override"),
-  User = require("./models/user"),
-  seedDB = require("./seeds");
+  User = require("./models/user");
+
 // requiring routes
 var commentRoutes = require("./routes/comments"),
   campgroundRoutes = require("./routes/campgrounds"),
@@ -16,7 +18,7 @@ var commentRoutes = require("./routes/comments"),
   indexRoutes = require("./routes/index");
 
 // Connect or create MongoDB through mongoose
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/yelp_camp");
 // use body-parser to get form data from req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 // set view engine
@@ -29,7 +31,6 @@ app.use(methodOverride("_method"));
 app.use(flash());
 // momentJS for time
 app.locals.moment = require("moment");
-// seedDB(); // seed the database
 
 // PASSPORT CONFIG
 app.use(
@@ -64,5 +65,6 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/users/:id", userRoutes);
 
-var port = 3000;
-app.listen(port, console.log("YelpCamp server started on port " + port));
+app.listen(process.env.PORT, process.env.IP, () =>
+  console.log("YelpCamp server started on port " + process.env.PORT)
+);
