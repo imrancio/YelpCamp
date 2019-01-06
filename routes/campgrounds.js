@@ -53,7 +53,8 @@ router.get("/", (req, res) => {
         }
         res.render("campgrounds/", {
           campgrounds: foundCampgrounds,
-          page: "campgrounds"
+          page: "campgrounds",
+          search: req.query.search
         });
       }
     );
@@ -65,7 +66,8 @@ router.get("/", (req, res) => {
       } else {
         res.render("campgrounds/index", {
           campgrounds: allCampgrounds,
-          page: "campgrounds"
+          page: "campgrounds",
+          search: ""
         });
       }
     });
