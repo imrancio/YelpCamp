@@ -33,7 +33,7 @@ The password reset feature will not work without a valid Gmail account and OAuth
 ## Run
 First, install MongoDB following instructions from [here](https://docs.mongodb.com/v3.2/administration/install-community/). Alternatively, you may connect to any mongoDB instance by setting the `MONGO_URI` environment variable. Then, run the following commands on a fresh terminal:
 ```
-git clone https://github.com/imrancio/YelpCamp
+git clone https://github.com/imrancio/YelpCamp.git
 cd YelpCamp
 npm i
 ```
