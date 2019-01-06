@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
   router = express.Router(),
   Campground = require("../models/campground"),
   middleware = require("../middleware"),

@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
   router = express.Router(),
   passport = require("passport"),
   User = require("../models/user"),
@@ -6,6 +6,15 @@ var express = require("express"),
   nodemailer = require("nodemailer"),
   crypto = require("crypto"),
   middleware = require("../middleware");
+
+const { google } = require("googleapis");
+const { OAuth2 } = google.auth;
+
+const oauth2Client = new OAuth2(
+  process.env.GMAIL_CLIENT_ID,
+  process.env.GMAIL_CLIENT_SECRET,
+  "https://developers.google.com/oauthplayground"
+);
 
 // ROOT ROUTE
 router.get("/", (req, res) => {
@@ -113,27 +122,37 @@ router.post("/forgot", (req, res, next) => {
       },
       // sends the email
       function(token, user, done) {
-        var smtpTransport = nodemailer.createTransport({
+        // OAuth
+        oauth2Client.setCredentials({
+          refresh_token: process.env.GMAIL_REFRESH_TOKEN
+        });
+        const accessToken = oauth2Client.getAccessToken();
+
+        const smtpTransport = nodemailer.createTransport({
           service: "Gmail",
           auth: {
+            type: "OAuth2",
             user: process.env.GMAIL,
-            pass: process.env.GMAILPW
+            clientId: process.env.GMAIL_CLIENT_ID,
+            clientSecret: process.env.GMAIL_CLIENT_SECRET,
+            refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+            accessToken: accessToken
           }
         });
 
-        var mailOptions = {
+        const mailOptions = {
           to: user.email,
           from: process.env.GMAIL,
           subject: "YelpCamp Password Reset",
           text:
-            "You are receiving this because (maybe) you have requested the rest of the password to your YelpCamp account.\n\n" +
+            "You are receiving this because someone requested the reset of the password to your YelpCamp account.\n\n" +
             "Please click on the following link, or paste this into your browser to complete the process:\n" +
             "http://" +
             req.headers.host +
             "/reset/" +
             token +
             "\n\n" +
-            "This link will expire in 60 mins.\n\n" +
+            "This link will expire in 60 minutes.\n\n" +
             "If you did not request this, please ignore this email and your password will remain unchanged."
         };
         smtpTransport.sendMail(mailOptions, (err, resp) => {
@@ -212,20 +231,30 @@ router.post("/reset/:token", function(req, res) {
         );
       },
       function(user, done) {
-        var smtpTransport = nodemailer.createTransport({
+        // OAuth
+        oauth2Client.setCredentials({
+          refresh_token: process.env.GMAIL_REFRESH_TOKEN
+        });
+        const accessToken = oauth2Client.getAccessToken();
+
+        const smtpTransport = nodemailer.createTransport({
           service: "Gmail",
           auth: {
+            type: "OAuth2",
             user: process.env.GMAIL,
-            pass: process.env.GMAILPW
+            clientId: process.env.GMAIL_CLIENT_ID,
+            clientSecret: process.env.GMAIL_CLIENT_SECRET,
+            refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+            accessToken: accessToken
           }
         });
-        var mailOptions = {
+        const mailOptions = {
           to: user.email,
           from: process.env.GMAIL,
           subject: "Your password has been changed",
           text:
             "Hello,\n\n" +
-            "This is a confirmation that the password for your account " +
+            "This is a confirmation that the password for your YelpCamp account " +
             user.email +
             " has just been changed.\n"
         };
