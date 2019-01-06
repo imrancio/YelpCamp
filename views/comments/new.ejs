@@ -1,16 +1,18 @@
 <% include ../partials/header %>
 
-    <form action="/campgrounds/<%= campground._id %>/comments" method="POST">
-        <h1 class="text-center">Add New Comment to <%= campground.name %></h1>
+<form action="/campgrounds/<%= campground._id %>/comments" method="POST">
+    <h1 class="text-center">Add New Comment to
+        <%= campground.name %>
+    </h1>
 
-        <div class="form-group">
-            <textarea class="form-control" rows="3" name="comment[text]" placeholder="comment" autofocus></textarea>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary btn-lg btn-block">Submit!</button>
-        </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="3" name="comment[text]" placeholder="comment" autofocus></textarea>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary btn-lg btn-block">Submit!</button>
+    </div>
 
-        <a href="/campgrounds">Go Back</a>
-    </form>
+    <a href="/campgrounds">Go Back</a>
+</form>
 
 <% include ../partials/footer %>

@@ -1,39 +1,42 @@
 <% include ../partials/header %>
 
-    <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-        <h1 class="text-center">Edit <%= campground.name %></h1>
+<form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <h1 class="text-center">Edit
+        <%= campground.name %>
+    </h1>
 
-        <div class="form-group">
-            <input class="form-control" type="text" name="campground[name]" placeholder="name" value="<%= campground.name %>">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="number" name="campground[price]" placeholder="price" value="<%= campground.price %>" min="0.01" step="0.01">
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <input class="form-control" type="url" name="campground[image]" placeholder="image url" value="<%= campground.image %>">
-                </div>
-            </div>
-            <span class="form-text">OR</span>
-            <div class="col">
-                <div class="form-group">
-                    <input type="file" id="image" name="image" accept="image/*">
-                </div>
+    <div class="form-group">
+        <input class="form-control" type="text" name="campground[name]" placeholder="name" value="<%= campground.name %>">
+    </div>
+    <div class="form-group">
+        <input class="form-control" type="number" name="campground[price]" placeholder="price" value="<%= campground.price %>"
+            min="0.01" step="0.01">
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <input class="form-control" type="url" name="campground[image]" placeholder="image url" value="<%= campground.image %>">
             </div>
         </div>
-        <div class="form-group">
-            <textarea class="form-control" rows="4" name="campground[description]" placeholder="description"><%= campground.description %></textarea>
+        <span class="form-text">OR</span>
+        <div class="col">
+            <div class="form-group">
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
         </div>
-        <div class="form-group">
-            <!-- <label for="location">Location</label> -->
-            <input class="form-control" type="text" name="campground[location]" id="location" value="<%= campground.location %>">
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary btn-lg btn-block">Submit!</button>
-        </div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="4" name="campground[description]" placeholder="description"><%= campground.description %></textarea>
+    </div>
+    <div class="form-group">
+        <!-- <label for="location">Location</label> -->
+        <input class="form-control" type="text" name="campground[location]" id="location" value="<%= campground.location %>">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary btn-lg btn-block">Submit!</button>
+    </div>
 
-        <a href="/campgrounds/<%= campground._id %>">Go Back</a>
-    </form>
+    <a href="/campgrounds/<%= campground._id %>">Go Back</a>
+</form>
 
 <% include ../partials/footer %>
