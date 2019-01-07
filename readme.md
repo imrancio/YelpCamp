@@ -1,5 +1,5 @@
 # YelpCamp
-Welcome to YelpCamp! It is a web application designed to blog about fun campground locations. I created it while learning about web development from Colt Steele's [Web Developer Bootcamp](https://www.udemy.com/the-web-developer-bootcamp/) on Udemy. The backend uses Express.js and MongoDB. The frontend consists of EJS templates created using Bootstrap 4. A fully deployed version of the application is hosted [here](https://quiet-everglades-85480.herokuapp.com). Go ahead and check it out!
+Welcome to YelpCamp! It is a web application designed to blog about fun campground locations. I created it while learning about web development from Colt Steele's [Web Developer Bootcamp](https://www.udemy.com/the-web-developer-bootcamp/) on Udemy. The backend uses Express.js and MongoDB. The frontend consists of EJS templates created using Bootstrap 4. A fully deployed version of the application is hosted on [Heroku](https://quiet-everglades-85480.herokuapp.com). Go ahead and check it out!
 
 ## User roles & Features
 Users can register, login, add campgrounds, comments, etc. Admin users may add/edit/delete any users/campgrounds/comments as they see fit. Users may only add/edit/delete their own account/campgrounds/comments.
