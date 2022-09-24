@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "User reviews and recommendations of best campgrounds",
   "main": "app.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "start": "node app.js",
     "predev": "mongod --fork --logpath /dev/null",
